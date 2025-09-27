@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>14-дневный марафон по нейросетям</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366F1;
+            --primary-dark: #4F46E5;
+            --secondary: #10B981;
+            --accent: #F59E0B;
+            --text: #1F2937;
+            --text-light: #6B7280;
+            --bg: #F9FAFB;
+            --card-bg: #FFFFFF;
+            --border: #E5E7EB;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--bg);
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23e5e7eb' fill-opacity='0.2' fill-rule='evenodd'/%3E%3C/svg%3E");
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .author {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+
+        .author img {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+        }
+
+        /* Navigation */
+        .nav-container {
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text);
+        }
+
+        /* Main Content */
+        main {
+            padding: 60px 0;
+        }
+
+        .section {
+            margin-bottom: 80px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s, transform 0.6s;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            gap: 15px;
+        }
+
+        .section-icon {
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        h2 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin: 0;
+        }
+
+        /* Cards */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin: 0;
+            color: var(--text);
+        }
+
+        .card-content {
+            color: var(--text-light);
+        }
+
+        ul, ol {
+            padding-left: 20px;
+            margin: 15px 0;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .highlight {
+            background-color: rgba(99, 102, 241, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        .term {
+            display: inline-block;
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--secondary);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+            margin: 2px 0;
+        }
+
+        /* Infographic */
+        .infographic {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 40px 0;
+        }
+
+        .timeline {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: var(--primary);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            justify-content: flex-end;
+            padding-right: 50%;
+            position: relative;
+            margin: 40px 0;
+            width: 100%;
+        }
+
+        .timeline-item:nth-child(even) {
+            justify-content: flex-start;
+            padding-right: 0;
+            padding-left: 50%;
+        }
+
+        .timeline-content {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .timeline-content::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            right: -10px;
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-left: 10px solid var(--card-bg);
+        }
+
+        .timeline-item:nth-child(even) .timeline-content::after {
+            right: auto;
+            left: -10px;
+            border-left: none;
+            border-right: 10px solid var(--card-bg);
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 20px;
+            width: 20px;
+            height: 20px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        /* Checklist */
+        .checklist {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .check-icon {
+            width: 24px;
+            height: 24px;
+            background-color: var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+            margin-top: 3px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--text);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+
+        .footer-links a:hover {
+            opacity: 0.7;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--card-bg);
+                box-shadow: var(--shadow);
+                padding: 20px;
+                gap: 15px;
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .timeline::before {
+                left: 30px;
+            }
+            
+            .timeline-item {
+                justify-content: flex-start;
+                padding-right: 0;
+                padding-left: 80px;
+            }
+            
+            .timeline-item:nth-child(even) {
+                justify-content: flex-start;
+                padding-left: 80px;
+            }
+            
+            .timeline-dot {
+                left: 30px;
+            }
+            
+            .timeline-content::after {
+                right: auto;
+                left: -10px;
+                border-left: none;
+                border-right: 10px solid var(--card-bg);
+            }
+            
+            .timeline-item:nth-child(even) .timeline-content::after {
+                left: -10px;
+            }
+        }
+
+        /* Animation for icons */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Tooltips */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted var(--primary);
+            cursor: help;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--text);
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.9rem;
+            font-weight: normal;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1>14-дневный марафон по нейросетям</h1>
+                <p class="subtitle">Интеллект-карта и шпаргалка по мотивам экзаменационной работы Александра Горячова</p>
+                <div class="author">
+                    <span>Автор: Александр Горячов (@goryachov222)</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="nav-container">
+        <nav class="container">
+            <div class="logo">🧠 Нейросети</div>
+            <button class="mobile-menu-btn">☰</button>
+            <ul class="nav-links">
+                <li><a href="#glossary">Глоссарий</a></li>
+                <li><a href="#checklist">Чек-лист</a></li>
+                <li><a href="#module1">Модуль 1</a></li>
+                <li><a href="#module2">Модуль 2</a></li>
+                <li><a href="#module3">Модуль 3</a></li>
+                <li><a href="#module4">Модуль 4</a></li>
+                <li><a href="#module5">Модуль 5</a></li>
+                <li><a href="#module6">Модуль 6</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <main class="container">
+        <section id="glossary" class="section">
+            <div class="section-header">
+                <div class="section-icon">📖</div>
+                <h2>Глоссарий: ключевые термины</h2>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🧠</div>
+                    <h3>Основные понятия</h3>
+                </div>
+                <div class="card-content">
+                    <ul>
+                        <li><span class="term">LLM (Large Language Model)</span>: Большая языковая модель. Основа современных ИИ-чат-ботов. Не «думает», а предсказывает следующее слово на основе статистики и контекста.</li>
+                        <li><span class="term">Промт (Prompt)</span>: Текст-запрос, инструкция для ИИ. Качество промта определяет качество ответа.</li>
+                        <li><span class="term">Промптинг (Prompting)</span>: Искусство формулирования промтов.</li>
+                        <li><span class="term">Галлюцинация</span>: Выдача ИИ ложной, но правдоподобной информации.</li>
+                        <li><span class="term">Токен</span>: Минимальная единица текста для ИИ (слово, часть слова, знак препинания).</li>
+                        <li><span class="term">Мультимодальность</span>: Способность ИИ работать с разными типами данных: текст, изображения, видео, звук.</li>
+                        <li><span class="term">RAG (Retrieval-Augmented Generation)</span>: Метод «подгрузки» в ИИ сторонних данных (например, ваших документов) для ответа с их учетом. Память — временная (на время чата).</li>
+                        <li><span class="term">Fine-Tuning (Дообучение)</span>: Процесс обучения уже готовой модели на ваших специфических данных. Модель меняет свои «веса» и навсегда усваивает ваш стиль или знания.</li>
+                        <li><span class="term">ИИ-Агент</span>: Автономный помощник, который сам планирует шаги, использует инструменты (поиск, калькулятор) и выполняет сложные задачи без постоянного вашего контроля.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="checklist" class="section">
+            <div class="section-header">
+                <div class="section-icon">🚀</div>
+                <h2>Чек-лист начала работы</h2>
+            </div>
+            
+            <div class="card">
+                <div class="card-content">
+                    <div class="checklist">
+                        <div class="checklist-item">
+                            <div class="check-icon">✓</div>
+                            <div>Зарегистрируйся в ключевых сервисах: ChatGPT, Gemini, Claude, Perplexity, Suno, DeepSeek, Qwen, Ideogram.</div>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="check-icon">✓</div>
+                            <div>Настрой инфраструктуру: Gmail, VPN для доступа к некоторым сервисам, виртуальный номер (например, onlinesim.io) для верификации.</div>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="check-icon">✓</div>
+                            <div>Оформи ключевые подписки: Приоритет — ChatGPT Plus. Далее — по потребностям (Suno, Perplexity).</div>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="check-icon">✓</div>
+                            <div>Создай два журнала: Журнал удачных промтов и журнал идей.</div>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="check-icon">✓</div>
+                            <div>Усвой золотое правило: Никогда не доверяй ИИ на 100%. Всегда проверяй критически важную информацию (финансы, здоровье, законы).</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="module1" class="section">
+            <div class="section-header">
+                <div class="section-icon">1</div>
+                <h2>Модуль 1: Базовые принципы и инструменты</h2>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🎯</div>
+                    <h3>Ключевая концепция: Что такое ИИ на самом деле?</h3>
+                </div>
+                <div class="card-content">
+                    <p>Современный «ИИ» — это не искусственный интеллект, а сложные статистические модели (LLM), предсказывающие слова/пиксели. Они не обладают сознанием или пониманием.</p>
+                    
+                    <div class="highlight">
+                        <strong>Суть простыми словами</strong>
+                        <p>Представь огромный-огромный автозавершатель текста (как в смартфоне), который прочитал весь интернет. Он не «понимает» смысл, а угадывает, какое слово или пиксель должны быть следующими, основываясь на том, что он «видел» раньше.</p>
+                    </div>
+                    
+                    <h4>Практическое применение</h4>
+                    <ul>
+                        <li><strong>Выбор инструмента:</strong> Для каждой задачи — свой инструмент. Универсальные солдаты: ChatGPT, Gemini. Специалисты: Perplexity (поиск), Suno (музыка), Ideogram (изображения).</li>
+                        <li><strong>Стартовый стек Александра:</strong> Всегда открыты и тестируются параллельно: ChatGPT, Grok, Gemini, Claude, DeepSeek, QWEN, Perplexity.</li>
+                    </ul>
+                    
+                    <h4>Важные нюансы / Частые ошибки</h4>
+                    <ul>
+                        <li><strong>Главная ошибка:</strong> Ожидать от ИИ человеческого «понимания». Это приводит к разочарованию из-за галлюцинаций.</li>
+                        <li><strong>Нюанс:</strong> Платные версии (например, ChatGPT Plus) часто дают более точные ответы благодаря доступу к более мощным моделям и встроенным механизмам проверки фактов.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="module2" class="section">
+            <div class="section-header">
+                <div class="section-icon">2</div>
+                <h2>Модуль 2: Мастерство промтинга</h2>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🎯</div>
+                    <h3>Ключевая концепция: Идеальный промт</h3>
+                </div>
+                <div class="card-content">
+                    <p>Структурированный запрос, который дает ИИ максимум контекста и четкие инструкции. Формула: КОНТЕКСТ → ЦЕЛЬ → ФОРМАТ → ОГРАНИЧЕНИЯ → КРИТЕРИИ.</p>
+                    
+                    <div class="highlight">
+                        <strong>Суть простыми словами</strong>
+                        <p>Разговор с ИИ — как постановка задачи для стажера-супермена. Нельзя говорить «сделай хорошо». Надо сказать: «Вот ситуация (контекст), вот что нужно получить (цель), вот как это оформить (формат), вот чего избегать (ограничения), и вот по каким параметрам я буду проверять результат (критерии)».</p>
+                    </div>
+                    
+                    <h4>Практическое применение: Алгоритм Александра</h4>
+                    <ol>
+                        <li><strong>Черновик:</strong> Свободно опиши задачу своими словами.</li>
+                        <li><strong>Промт №1:</strong> Преврати черновик в структурированный запрос по формуле выше.</li>
+                        <li><strong>Промт №2:</strong> Дай промт №1 другому ИИ (например, Claude) со словами: «Доработай этот промт, сделай его более эффективным».</li>
+                        <li><strong>Тест:</strong> Проверь оба промта в разных ИИ. Иногда твой исходный вариант сработает лучше.</li>
+                    </ol>
+                    
+                    <h4>Важные нюансы / Частые ошибки</h4>
+                    <ul>
+                        <li><strong>Избегай:</strong> Мусорных слов, размытости («хочу разбогатеть»), обобщений («бизнес в России»).</li>
+                        <li><strong>Используй:</strong> Конкретику, цифры, примеры. Сложную задачу разбивай на этапы.</li>
+                        <li><strong>Лайфхак:</strong> Если результат плохой — виноват промт, а не ИИ. Улучшай промт.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="infographic">
+                <h3>Формула идеального промта</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>КОНТЕКСТ</h4>
+                            <p>Предоставьте ИИ всю необходимую информацию о ситуации</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>ЦЕЛЬ</h4>
+                            <p>Четко сформулируйте, что вы хотите получить</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>ФОРМАТ</h4>
+                            <p>Укажите, в каком виде должен быть представлен ответ</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>ОГРАНИЧЕНИЯ</h4>
+                            <p>Что не должно быть в ответе, какие условия соблюдать</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h4>КРИТЕРИИ</h4>
+                            <p>По каким параметрам вы будете оценивать результат</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="module3" class="section">
+            <div class="section-header">
+                <div class="section-icon">3</div>
+                <h2>Модуль 3: Борьба с галлюцинациями и валидация</h2>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🎯</div>
+                    <h3>Ключевая концепция: Фактчекинг</h3>
+                </div>
+                <div class="card-content">
+                    <p>Обязательная перекрестная проверка любой важной информации, полученной от ИИ.</p>
+                    
+                    <div class="highlight">
+                        <strong>Суть простыми словами</strong>
+                        <p>ИИ — это не Оракул, а очень эрудированный, но иногда ошибающийся студент. Его ответы нужно проверять, как конспект перед экзаменом.</p>
+                    </div>
+                    
+                    <h4>Практическое применение</h4>
+                    <ul>
+                        <li><strong>Запрос источников:</strong> Проси ИИ указать источники информации. Perplexity делает это по умолчанию.</li>
+                        <li><strong>Кросс-диалог:</strong> Запусти «дебаты». Дай одну и ту же задачу ChatGPT, Claude и Gemini и сравни ответы. Расхождения — сигнал к проверке.</li>
+                        <li><strong>Добавь в промт:</strong> Всегда добавляй фразу: «Если нет достоверных данных — скажи "не знаю"».</li>
+                    </ul>
+                    
+                    <h4>Важные нюансы / Частые ошибки</h4>
+                    <ul>
+                        <li><strong>Ошибка:</strong> Слепое доверие, особенно в вопросах здоровья, финансов и юриспруденции.</li>
+                        <li><strong>Нюанс:</strong> Кросс-диалог не только проверяет факты, но и помогает увидеть задачу с разных углов, часто рождая лучшую идею.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="module4" class="section">
+            <div class="section-header">
+                <div class="section-icon">4</div>
+                <h2>Модуль 4: Работа с разными форматами</h2>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🎨</div>
+                    <h3>Генерация изображений</h3>
+                </div>
+                <div class="card-content">
+                    <p>Ключ — максимально детализированный промт: [Объект] + [место/время] + [стиль] + [освещение] + [композиция] + [чего НЕ должно быть].</p>
+                    
+                    <ul>
+                        <li><strong>Инструменты:</strong> ChatGPT (DALL-E), Ideogram (лучше держит стиль), NanoBanana (стабильность, редактирование).</li>
+                        <li><strong>Пример промта:</strong> «Мужчина 25-35 лет в черной медицинской маске на вершине горы на рассвете, кинематографичный фотореализм, золотой час, низкий ракурс, без текста и логотипов».</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🎵</div>
+                    <h3>Генерация музыки (Suno)</h3>
+                </div>
+                <div class="card-content">
+                    <ul>
+                        <li><strong>Инструмент:</strong> Suno — революционный инструмент для создания полноценных песен.</li>
+                        <li><strong>Схема работы:</strong> Попроси любую LLM (например, Claude) написать текст песни в нужном стиле -> Скопируй текст в Suno -> Получи трек.</li>
+                        <li><strong>Применение:</strong> Музыкальные подарки, создание контента для соцсетей, коммерция.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🌐</div>
+                    <h3>Создание контента (Веб-страницы, DeepSeek)</h3>
+                </div>
+                <div class="card-content">
+                    <ul>
+                        <li><strong>Инструмент:</strong> DeepSeek отлично справляется с генерацией HTML/CSS/JS кода.</li>
+                        <li><strong>Промт-шаблон Александра:</strong> «Создай один HTML-файл с интерактивной и адаптивной веб-страницей для представленного ниже текста. Встрой иконки, инфографику, анимации. Весь код — в одном файле».</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="module5" class="section">
+            <div class="section-header">
+                <div class="section-icon">5</div>
+                <h2>Модуль 5: Продвинутые техники и стратегии</h2>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🎯</div>
+                    <h3>Ключевая концепция: ИИ-Агенты</h3>
+                </div>
+                <div class="card-content">
+                    <p>Автономные помощники, которые выполняют многошаговые задачи самостоятельно (анализ, поиск, составление отчетов).</p>
+                    
+                    <div class="highlight">
+                        <strong>Суть простыми словами</strong>
+                        <p>Это уже не стажер, а твой личный заместитель, которому можно поручить сложный проект: «Проанализируй рынок хостингов в России и представь мне отчет с лучшими вариантами». Он сам спланирует шаги, поищет информацию, проанализирует и выдаст готовый результат.</p>
+                    </div>
+                    
+                    <h4>Практическое применение</h4>
+                    <ul>
+                        <li><strong>Пример запроса для Агента (из работы Александра):</strong> «Ты — веб-мастер с 20+ лет опыта. Найди и сравни российские хостинги для статического сайта. Бюджет — 4000 руб./год. Представь итог в виде таблицы в Markdown, PDF-отчета и CSV-файла».</li>
+                        <li><strong>Доступно в:</strong> ChatGPT Plus (режим «Агент»), Claude, Gemini.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🤖</div>
+                    <h3>Ключевая концепция: Создание собственных GPT-ботов (ChatGPT Plus)</h3>
+                </div>
+                <div class="card-content">
+                    <p>Кастомизация ChatGPT под ваши конкретные нужды путем загрузки ваших данных (база знаний, инструкции, стиль общения).</p>
+                    
+                    <h4>Практическое применение</h4>
+                    <ul>
+                        <li><strong>Для чего:</strong> Личный ассистент по вашей нише, экспертная система на основе ваших PDF-файлов, тренажер.</li>
+                        <li><strong>Как:</strong> В интерфейсе ChatGPT Plus зайдите в раздел GPTs -> Create a GPT. Укажите имя, описание, загрузите файлы в Knowledge, пропишите Instructions (правила поведения).</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="module6" class="section">
+            <div class="section-header">
+                <div class="section-icon">6</div>
+                <h2>Модуль 6: Личные стратегии и инсайты автора</h2>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🎯</div>
+                    <h3>Стратегия №1: Параллельное тестирование гипотез</h3>
+                </div>
+                <div class="card-content">
+                    <p>Не полагайся на одну нейросеть. Всегда прогоняй ключевые промты через 5-7 разных ИИ (ChatGPT, Claude, Gemini, Grok, DeepSeek, QWEN, Perplexity).</p>
+                    
+                    <h4>Алгоритм:</h4>
+                    <ol>
+                        <li>Обозначь задачу.</li>
+                        <li>Подготовь промт.</li>
+                        <li>Одновременно залей его во все открытые ИИ.</li>
+                        <li>Быстро прочитай ответы, отсеяв аутсайдеров.</li>
+                        <li>Углубленно работай с 1-2 лучшими ответами.</li>
+                    </ol>
+                    
+                    <p><strong>Выгода:</strong> Находишь неожиданно сильные решения (например, Claude может написать лучший текст песни, а QWEN — дать самый глубокий аналитический ответ).</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🎯</div>
+                    <h3>Стратегия №2: Глубокая интеграция (N8N + Локальные модели)</h3>
+                </div>
+                <div class="card-content">
+                    <ul>
+                        <li><strong>N8N:</strong> Инструмент для автоматизации. Можно развернуть на своем сервере (дешевле) и создавать сложных ИИ-агентов, которые взаимодействуют с внешним миром (например, через Telegram-бота).</li>
+                        <li><strong>Локальные модели (Ollama, LM Studio):</strong> Запуск open-source моделей (Llama, Mistral) на своем компьютере. Это дает полную приватность, свободу от цензуры и возможность дообучать модели (fine-tuning) под себя.</li>
+                        <li><strong>Инсайт автора:</strong> Настоящая сила — не в использовании облачных сервисов, а в возможности стать «инженером», а не «водителем». Fine-tuning (дообучение) создает твоего цифрового клона, который говорит твоим голосом, в отличие от RAG (временной подгрузки документов).</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">💡</div>
+                    <h3>Главный инсайт марафона</h3>
+                </div>
+                <div class="card-content">
+                    <p><strong>«Что вы не узнали?»</strong></p>
+                    <p>Марафон дал блестящие навыки пользования ИИ («водительские права»). Но он намеренно упустил глубину: архитектуру моделей (трансформеры, внимание), процесс их обучения, экологию, этику и, главное, возможность локального запуска и дообучения.</p>
+                    <p><strong>«Пожар-огонь, открывающий вселенную»</strong> — это переход от роли потребителя к роли создателя и инженера. Это осознание, что можно не просто спрашивать у ChatGPT, а запустить свою модель на своем ноутбуке, дообучить ее на своих данных и получить абсолютно приватный и персонализированный инструмент, который является продолжением тебя самого.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <div class="section-icon">✅</div>
+                <h2>Итоговый чек-лист для ежедневной работы</h2>
+            </div>
+            
+            <div class="card">
+                <div class="card-content">
+                    <div class="checklist">
+                        <div class="checklist-item">
+                            <div class="check-icon">✓</div>
+                            <div>Промт по формуле: Контекст -> Цель -> Формат -> Ограничения -> Критерии.</div>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="check-icon">✓</div>
+                            <div>Проверка на галлюцинации: Кросс-диалог между ChatGPT, Claude, Gemini. Использование Perplexity для проверки фактов.</div>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="check-icon">✓</div>
+                            <div>Параллельный запрос: Всегда дублируй сложные задачи в несколько ИИ.</div>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="check-icon">✓</div>
+                            <div>Ведение журнала: Сохраняй удачные промты и идеи.</div>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="check-icon">✓</div>
+                            <div>Использование Агентов: Поручай сложные, многошаговые задачи ИИ-агенту.</div>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="check-icon">✓</div>
+                            <div>Глубокая интеграция: Изучи возможности N8N для автоматизации и локальных моделей (Ollama) для полного контроля.</div>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="check-icon">✓</div>
+                            <div>Инвестируй в подписки: ChatGPT Plus — must-have. Остальные — по мере необходимости, но не экономь на инструментах, которые экономят твое время.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p>14-дневный марафон по нейросетям</p>
+                <p>По мотивам экзаменационной работы Александра Горячова (@goryachov222)</p>
+                <div class="footer-links">
+                    <a href="#">Наверх</a>
+                    <a href="#">О проекте</a>
+                    <a href="#">Контакты</a>
+                </div>
+                <p>© 2023 Все права защищены</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // Scroll animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.section');
+            
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+            
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Close mobile menu if open
+                        document.querySelector('.nav-links').classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        // Add floating animation to some icons
+        document.addEventListener('DOMContentLoaded', function() {
+            const icons = document.querySelectorAll('.section-icon, .card-icon');
+            icons.forEach((icon, index) => {
+                // Add delay for staggered animation
+                icon.style.animationDelay = `${index * 0.1}s`;
+                icon.classList.add('floating');
+            });
+        });
+    </script>
+</body>
+</html>
